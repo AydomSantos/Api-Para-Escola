@@ -1,0 +1,17 @@
+{
+  "development": {
+    "username": "root",
+    "password": "",
+    "database": "api_para_escola",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "define": {
+      "timestamps": true,
+      "underscored": true,
+      "underscoredAll": true,
+      "createdAt": "created_at",
+      "updatedAt": "updated_at"
+    }
+  }
+  
+}
