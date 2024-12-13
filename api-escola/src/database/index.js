@@ -33,7 +33,7 @@ const sequelize = new Sequelize('freedb_api_para_escolaDb', 'freedb_api_escola_u
   },
   // Aumentando o timeout de conexão
   dialectOptions: {
-    connectTimeout: 100000 
+    connectTimeout: 70000 
   }
 });
 
