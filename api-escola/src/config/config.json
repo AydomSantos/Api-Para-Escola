@@ -1,10 +1,11 @@
 {
   "development": {
-    "username": "root",
-    "password": "",
-    "database": "api_para_escola",
-    "host": "127.0.0.1",
+    "username": "freedb_api_escola_user",
+    "password": "w$kVW8Ub62EMFTB",
+    "database": "freedb_api_para_escolaDb",
+    "host": "sql.freedb.tech",
     "dialect": "mysql",
+    "port": 3603,
     "define": {
       "timestamps": true,
       "underscored": true,
@@ -13,5 +14,4 @@
       "updatedAt": "updated_at"
     }
   }
-  
 }
