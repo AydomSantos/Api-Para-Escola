@@ -4,14 +4,20 @@ const AlunoModel = require('../models/Aluno.js');
 const TurmaModel = require('../models/Turma.js');
 const MatriculaModel = require('../models/Matricula.js');
 
-// Carregar variáveis de ambiente do arquivo .env
+// Carregar variáveis de ambiente do arquivo .env (não necessário com dados fixos, mas pode manter para outros usos)
 dotenv.config();
 
-// Configuração de conexão com o banco de dados (local ou remoto)
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT || 3306,  // Define default port (3306) if not provided
+// Configuração de conexão com o banco de dados (dados fixos)
+const sequelize = new Sequelize('freedb_api_para_escolaDb', 'freedb_api_escola_user', 'w$kVW8Ub62EMFTB', {
+  host: 'sql.freedb.tech',
+  port: 3603,
   dialect: 'mysql',
+  dialectOptions: process.env.NODE_ENV === 'production' ? {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  } : {},
   define: {
     timestamps: true,
     underscored: true,
@@ -21,26 +27,38 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   }
 });
 
+// Testar a conexão com o banco de dados
+sequelize.authenticate()
+  .then(() => console.log('Conexão bem-sucedida com o banco de dados!'))
+  .catch(err => {
+    console.error('Erro ao conectar ao banco de dados:', err.message);
+    process.exit(1);
+  });
+
 // Definir os modelos
 const models = [AlunoModel, TurmaModel, MatriculaModel];
 
 // Inicializando os modelos
 models.forEach(model => model.init(sequelize));
 
-// Associando os modelos (garantindo que as associações sejam feitas após a inicialização)
+// Associando os modelos
 models.forEach(model => {
   if (model.associate) {
     model.associate(sequelize.models);
   }
 });
 
-// Sincronizando o banco de dados
-sequelize.sync()
-  .then(() => {
-    console.log('Banco de dados sincronizado');
-  })
-  .catch(error => {
-    console.error('Erro ao sincronizar o banco de dados:', error);
-  });
+// Sincronização do banco de dados (apenas em ambiente de desenvolvimento)
+if (process.env.NODE_ENV === 'development') {
+  sequelize.sync()
+    .then(() => {
+      console.log('Banco de dados sincronizado');
+    })
+    .catch(error => {
+      console.error('Erro ao sincronizar o banco de dados:', error);
+    });
+} else {
+  console.log('Sincronização desativada no ambiente de produção.');
+}
 
 module.exports = sequelize;
