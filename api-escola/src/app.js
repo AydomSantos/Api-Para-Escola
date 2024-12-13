@@ -26,4 +26,9 @@ sequelize.sync()
     console.error('Unable to connect to the database:', err);
   });
 
-module.exports = app; // Exportando com CommonJS
+
+  const port = 3333;
+
+  app.listen(port, () => {
+      console.log(`Servidor rodando em http://localhost:${port}`);
+  });
