@@ -10,7 +10,7 @@ dotenv.config();
 // Configuração de conexão com o banco de dados (dados fixos)
 const sequelize = new Sequelize('freedb_api_para_escolaDb', 'freedb_api_escola_user', 'w$kVW8Ub62EMFTB', {
   host: 'sql.freedb.tech',
-  port: 3603,
+  port: 3606,
   dialect: 'mysql',
   dialectOptions: process.env.NODE_ENV === 'production' ? {
     ssl: {
@@ -24,6 +24,16 @@ const sequelize = new Sequelize('freedb_api_para_escolaDb', 'freedb_api_escola_u
     underscoredAll: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000, 
+    idle: 10000 
+  },
+  // Aumentando o timeout de conexão
+  dialectOptions: {
+    connectTimeout: 100000 
   }
 });
 
