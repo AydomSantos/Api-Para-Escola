@@ -4,7 +4,7 @@
   "description": "API para gerenciar uma escola com suporte a alunos, turmas e matrículas.",
   "main": "serve.js",
   "scripts": {
-    "start": "nodemon src/serve.js",
+    "start": "nodemon node app.js",
     "migrate": "npx sequelize-cli db:migrate",
     "seed": "npx sequelize-cli db:seed:all",
     "lint": "eslint . --ext .js",
